@@ -11,4 +11,4 @@
  
  Возвращаемые данные можно посмотреть в сервисе JournalBackendMockService
  
- Пример реализации в ветке - unit-one_example
+ Пример реализации в ветке - unit-one_example (https://github.com/Mrak2017/angular-middle-course/tree/unit-one_example/unit-one)
