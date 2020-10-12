@@ -1,23 +1,19 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime, map, startWith, tap } from 'rxjs/operators';
 import { QUESTIONS_JOURNAL_ID } from 'src/app/core/journal-backend-mock.service';
-import { JournalMainService } from 'src/app/core/journal-main.service';
 import { JournalNgrxService } from 'src/app/core/journal-ngrx.service';
-import {
-  FILTER_CODE_QUESTION_ANSWERS_COUNT,
-  FILTER_TYPE_SINGLE_SELECT,
-  JournalFilterItem,
-} from 'src/app/model/core/journal-filter-item';
+import { JOURNAL_SERVICE_INJECTION_TOKEN, JournalService } from 'src/app/core/journal-service';
+import { FILTER_CODE_QUESTION_ANSWERS_COUNT, FILTER_TYPE_SINGLE_SELECT, JournalFilterItem } from 'src/app/model/core/journal-filter-item';
 import { QuestionJournalItem } from 'src/app/model/question-journal-item.model';
 
 @Component({
              selector: 'app-task-journal',
              templateUrl: './question-journal.component.html',
              styleUrls: ['./question-journal.component.css'],
-             providers: [JournalNgrxService],
+             providers: [{ provide: JOURNAL_SERVICE_INJECTION_TOKEN, useClass: JournalNgrxService }],
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 export class QuestionJournalComponent implements OnInit, OnDestroy {
@@ -56,7 +52,7 @@ export class QuestionJournalComponent implements OnInit, OnDestroy {
     return filters;
   }
 
-  constructor(private service: JournalNgrxService, private fb: FormBuilder) {
+  constructor(@Inject(JOURNAL_SERVICE_INJECTION_TOKEN) private service: JournalService, private fb: FormBuilder) {
   }
 
   ngOnInit() {
