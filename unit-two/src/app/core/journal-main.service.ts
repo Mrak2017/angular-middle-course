@@ -1,15 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, merge, Observable, ReplaySubject, Subject } from 'rxjs';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  mapTo,
-  shareReplay,
-  startWith,
-  switchMap,
-  take,
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, mapTo, shareReplay, startWith, switchMap, take } from 'rxjs/operators';
+import { JournalService } from 'src/app/core/journal-service';
 import { JournalEntity } from 'src/app/model/core/journal-entity.model';
 import { JournalFilterItem } from 'src/app/model/core/journal-filter-item';
 import { JournalRequest } from 'src/app/model/core/journal-request.model';
@@ -17,7 +9,7 @@ import { JournalResult } from 'src/app/model/core/journal-result.model';
 import { JournalBackendMockService } from './journal-backend-mock.service';
 
 @Injectable()
-export class JournalMainService {
+export class JournalMainService implements JournalService {
 
   private readonly refresh$: Subject<void> = new BehaviorSubject(void 0);
   private readonly result$: Observable<JournalResult>;
@@ -30,7 +22,8 @@ export class JournalMainService {
   private readonly filters$: Subject<JournalFilterItem[]> = new BehaviorSubject([]);
 
   private static formRequest(journal: JournalEntity, search: string, page: number, pageSize: number,
-                             filters: JournalFilterItem[]): JournalRequest {
+                             filters: JournalFilterItem[],
+  ): JournalRequest {
     return {
       journalId: journal.id,
       search,
