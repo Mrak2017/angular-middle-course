@@ -12,6 +12,7 @@ import {
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QuestionJournalComponent } from 'src/app/question/question-journal/question-journal.component';
+import { StoreService } from 'src/app/store/store.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,7 +36,7 @@ import { JournalBackendMockService } from './core/journal-backend-mock.service';
               BrowserModule,
               AppRoutingModule,
             ],
-            providers: [JournalBackendMockService],
+            providers: [JournalBackendMockService, StoreService],
             bootstrap: [AppComponent],
           })
 export class AppModule {

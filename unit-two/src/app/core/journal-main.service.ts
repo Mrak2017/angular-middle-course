@@ -10,6 +10,7 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
+import { JournalService } from 'src/app/core/journal-service';
 import { JournalEntity } from 'src/app/model/core/journal-entity.model';
 import { JournalFilterItem } from 'src/app/model/core/journal-filter-item';
 import { JournalRequest } from 'src/app/model/core/journal-request.model';
@@ -17,7 +18,7 @@ import { JournalResult } from 'src/app/model/core/journal-result.model';
 import { JournalBackendMockService } from './journal-backend-mock.service';
 
 @Injectable()
-export class JournalMainService {
+export class JournalMainService implements JournalService {
 
   private readonly refresh$: Subject<void> = new BehaviorSubject(void 0);
   private readonly result$: Observable<JournalResult>;

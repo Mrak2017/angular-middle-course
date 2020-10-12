@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { debounceTime, map, startWith, tap } from 'rxjs/operators';
 import { QUESTIONS_JOURNAL_ID } from 'src/app/core/journal-backend-mock.service';
 import { JournalMainService } from 'src/app/core/journal-main.service';
+import { JournalNgrxService } from 'src/app/core/journal-ngrx.service';
 import {
   FILTER_CODE_QUESTION_ANSWERS_COUNT,
   FILTER_TYPE_SINGLE_SELECT,
@@ -16,7 +17,7 @@ import { QuestionJournalItem } from 'src/app/model/question-journal-item.model';
              selector: 'app-task-journal',
              templateUrl: './question-journal.component.html',
              styleUrls: ['./question-journal.component.css'],
-             providers: [JournalMainService],
+             providers: [JournalNgrxService],
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 export class QuestionJournalComponent implements OnInit, OnDestroy {
@@ -55,7 +56,7 @@ export class QuestionJournalComponent implements OnInit, OnDestroy {
     return filters;
   }
 
-  constructor(private service: JournalMainService, private fb: FormBuilder) {
+  constructor(private service: JournalNgrxService, private fb: FormBuilder) {
   }
 
   ngOnInit() {
@@ -101,11 +102,11 @@ export class QuestionJournalComponent implements OnInit, OnDestroy {
     this.service.initJournal(QUESTIONS_JOURNAL_ID);
 
     const result$ = this.service.getResult();
-    this.questions$ = result$.pipe(map(result => result.items as QuestionJournalItem[]));
-    this.length$ = result$.pipe(map(result => result.total));
+    this.questions$ = result$.pipe(map(result => result ? result.items as QuestionJournalItem[] : []));
+    this.length$ = result$.pipe(map(result => result ? result.total : 0));
 
     const journalInfo$ = this.service.getJournalInfo();
-    this.journalName$ = journalInfo$.pipe(map(info => info.name));
+    this.journalName$ = journalInfo$.pipe(map(info => info ? info.name : ''));
     this.pageSize$ = this.service.getPageSize().pipe(
       tap(pageSize => this.lastPageSize = pageSize),
     );
