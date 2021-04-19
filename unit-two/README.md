@@ -8,3 +8,5 @@
  - (* по желанию) реализовать поддержку сортировки
  
  Возвращаемые данные можно посмотреть в сервисе JournalBackendMockService
+
+Пример реализации в ветке - unit-two_example (https://github.com/Mrak2017/angular-middle-course/tree/unit-two_example/unit-two)
